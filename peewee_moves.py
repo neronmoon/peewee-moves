@@ -64,7 +64,7 @@ FIELD_TO_PEEWEE['integer'] = peewee.IntegerField
 FIELD_TO_PEEWEE['smallinteger'] = peewee.SmallIntegerField
 FIELD_TO_PEEWEE['binary'] = peewee.BlobField
 
-FIELD_KWARGS = ('null', 'index', 'unique', 'sequence', 'max_length', 'max_digits', 'decimal_places')
+FIELD_KWARGS = ('null', 'index', 'unique', 'sequence', 'max_length', 'max_digits', 'decimal_places', 'default')
 
 TEMPLATE = ''.join((
     '"""\n{name}\ndate created: {date}\n"""\n\n\n',
@@ -140,6 +140,8 @@ def build_upgrade_from_model(model):
         for key, value in sorted(kwargs.items()):
             if isinstance(value, str):
                 value = "'{}'".format(value)
+            if callable(value):
+                continue
             kwarg_list.append('{}={}'.format(key, value))
 
         # Then yield the field!
