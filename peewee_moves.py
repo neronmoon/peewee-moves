@@ -68,8 +68,9 @@ FIELD_KWARGS = ('null', 'index', 'unique', 'sequence', 'max_length', 'max_digits
 
 TEMPLATE = ''.join((
     '"""\n{name}\ndate created: {date}\n"""\n\n\n',
-    'def upgrade(migrator):\n{upgrade}\n\n\n',
-    'def downgrade(migrator):\n{downgrade}\n'
+    'from peewee_moves import Migrator\n\n\n',
+    'def upgrade(migrator: Migrator):\n{upgrade}\n\n\n',
+    'def downgrade(migrator: Migrator):\n{downgrade}\n'
 ))
 
 
