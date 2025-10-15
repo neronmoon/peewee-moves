@@ -2,7 +2,17 @@ from setuptools import setup
 from codecs import open
 from os import path
 
-from peewee_moves import __version__
+
+from setuptools import setup
+import pathlib, re
+
+def read_version():
+    text = pathlib.Path("peewee_moves.py").read_text(encoding="utf-8")
+    m = re.search(r'^__version__\s*=\s*[\'"]([^\'"]+)[\'"]', text, re.M)
+    if not m:
+        raise RuntimeError("Cannot find __version__ in peewee_moves.py")
+    return m.group(1)
+
 
 root_dir = path.abspath(path.dirname(__file__))
 
@@ -15,7 +25,7 @@ with open(path.join(root_dir, 'requirements.txt'), encoding='utf-8') as f:
 
 setup(
     name='peewee-moves',
-    version=__version__,
+    version=read_version(),
 
     description='Simple and flexible migration manager for Peewee ORM.',
     long_description=long_description,
